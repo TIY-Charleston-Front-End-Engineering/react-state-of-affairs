@@ -1,10 +1,34 @@
+@import "../../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 * {
 	font-family: Helvetica, Arial, sans-serif;
 	box-sizing: border-box;
 }
 
+img{
+	display: block;
+	width: 90%;
+	margin: 0 auto;
+}
+
 h1 {
-	font-size: 300px;
+	font-size: 66px;
 	text-align: center;
-	color: fuchsia;
+	background: cadetblue;
+	color: #fff;
+	text-shadow: 1px 1px 1px rgba(1,1,1, .7)
+}
+
+cite {
+	text-align: right;
+	&:before{
+
+		content: "– "
+	}
+	display: block;
+}
+
+
+
+.btn-success{
+	font-size: 32px;
 }

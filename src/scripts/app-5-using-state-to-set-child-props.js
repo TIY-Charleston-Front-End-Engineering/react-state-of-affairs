@@ -1,23 +1,18 @@
 const ReactDOM = require('react-dom');
 const React = require('react');
-const Backbone = require('backbone');
 
-let ShoutOutModel = Backbone.Model.extend({})
 
 const HomeView = React.createClass({
    getInitialState: function(){
-      let defaultMod = new ShoutOutModel()
-
-      let modAttributes = {
-         msg: "HELLOOO HOW ARE YOU????",
-         imgLink: "https://debragettlemanrak.files.wordpress.com/2011/04/angrykid.jpg",
-         from: "Billy"
-      }
-      
-      defaultMod.set(modAttributes)
       this.startingStateObj = {
          previewImgUrl: 'http://www.allensguide.com/img/no_image_selected.gif',
-         shoutOutData : modAttributes
+         // (4) setting default values for the shoutOutData that will be sent as initial props
+         //     to <ShoutOut shoutData={...}/>
+         shoutOutData : {
+            msg: "HELLOOO HOW ARE YOU????",
+            imgLink: "https://debragettlemanrak.files.wordpress.com/2011/04/angrykid.jpg",
+            from: "Billy"
+         }
       }
 
       return this.startingStateObj
@@ -43,17 +38,12 @@ const HomeView = React.createClass({
       let msgFrom = this.refs.msgFromEl.value
       let theImg = this.refs.imgInputEl.value
 
-      let modAttributes = {
-         msg: theMsg,
-         imgLink: theImg,
-         from: msgFrom
-      }
-
-      let newMod = new ShoutOutModel()
-      newMod.set(modAttributes)
-
       let newStateObj = {
-         shoutOutData: newMod
+         shoutOutData: {
+            msg: theMsg,
+            imgLink: theImg,
+            from: msgFrom
+         }
       }
 
       //triggers the `.render()` method with new state value
@@ -90,7 +80,7 @@ const HomeView = React.createClass({
                      <br/>
                      <button className="btn btn-block btn-success btn-lg" onClick={this._handleNewSubmit}>+</button>
                </div>
-
+               {/* (3)passing down STATE as PROPS to the child ShoutOut component*/}
                <ShoutOut shoutData={ this.state.shoutOutData }/>
 
             </div>
@@ -100,6 +90,7 @@ const HomeView = React.createClass({
    }
 })
 
+// (1)new component
 
 const ShoutOut = React.createClass({
    render: function(){
@@ -108,9 +99,12 @@ const ShoutOut = React.createClass({
             <div className="shoutout">
 
                <blockquote style={{background: 'indianred', color: '#fff', padding: '4rem'}}>
-                  <p>{this.props.shoutData.get('msg')}</p>
-                  <img src={this.props.shoutData.get('imgLink')} alt="..."/>
-                  <cite>{this.props.shoutData.get('from')}</cite>
+               {/* (2) component expecting to receive data through prop -- on `shoutData`*/}
+
+                  <p>{this.props.shoutData.msg}</p>
+                  <img src={this.props.shoutData.imgLink} alt="..."/>
+
+                  <cite>{this.props.shoutData.from}</cite>
                </blockquote>
             </div>
          </div>
