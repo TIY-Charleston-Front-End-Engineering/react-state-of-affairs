@@ -13,11 +13,11 @@ const HomeView = React.createClass({
          imgLink: "https://debragettlemanrak.files.wordpress.com/2011/04/angrykid.jpg",
          from: "Billy"
       }
-      
+
       defaultMod.set(modAttributes)
       this.startingStateObj = {
          previewImgUrl: 'http://www.allensguide.com/img/no_image_selected.gif',
-         shoutOutData : modAttributes
+         shoutOutData : defaultMod
       }
 
       return this.startingStateObj
