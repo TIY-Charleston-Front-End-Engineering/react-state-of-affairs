@@ -6,11 +6,8 @@ let ShoutOutModel = Backbone.Model.extend({})
 
 const HomeView = React.createClass({
 
-
+   //
    getInitialState: function(){
-   //(1) PROVIDE THE DUMMY DATA FOR THE INITIAL .render()
-
-      //(1a) create new instances of models
       let defaultMod = new ShoutOutModel()
       let mod2 = new ShoutOutModel()
 
@@ -26,22 +23,19 @@ const HomeView = React.createClass({
          imgLink: "http://2.bp.blogspot.com/-Iaqmr6Y72fg/UhacXxZIKFI/AAAAAAAAAsA/P3CpMxA7_LM/s1600/sad-banana-2.jpg"
       }
 
-      //(1b) Set the models' attributes property
       defaultMod.set(modAttributes)
       mod2.set(modAtributes2)
 
-      //(1c) Push the bb models to an empty array
       let modelsListArray = []
       modelsListArray.push(defaultMod)
       modelsListArray.push(mod2)
 
-      let startingStateObj = {
+      this.startingStateObj = {
          previewImgUrl: 'http://www.allensguide.com/img/no_image_selected.gif',
-         //(1d) Put array of modles on the component's state
          shoutOutData : modelsListArray
       }
 
-      return startingStateObj
+      return this.startingStateObj
    },
 
    _handleImgPreviewClick: function(){
@@ -58,8 +52,7 @@ const HomeView = React.createClass({
       this.setState(newStateObj)
    },
 
-   //
-   _addSubmission: function(evt){
+   _addSubmission: function(){
       let theMsg = this.refs.theMsgEl.value
       let msgFrom = this.refs.msgFromEl.value
       let theImg = this.refs.imgInputEl.value
@@ -73,14 +66,16 @@ const HomeView = React.createClass({
       let newMod = new ShoutOutModel()
       newMod.set(modAttributes)
 
+      //BAD! this.state.shoutOutData.push(newMod)
       let copyOfShoutList = this.state.shoutOutData.map(function(m){return m })
       copyOfShoutList.push(newMod)
 
+      //triggers the `.render()` method with new state value
       let newStateObj = {shoutOutData: copyOfShoutList}
       this.setState(newStateObj)
    },
 
-   render: function(evt){
+   render: function(){
 
       return (
          <div className="container">
@@ -111,7 +106,6 @@ const HomeView = React.createClass({
                      <button className="btn btn-block btn-success btn-lg" onClick={this._addSubmission}>+</button>
                </div>
 
-               {/* (2) PASS STATE DOWN TO COMPONENT's PROPS (.shoutData for the component) */}
                <ShoutOutList shoutData={ this.state.shoutOutData }/>
 
             </div>
@@ -123,12 +117,10 @@ const HomeView = React.createClass({
 
 
 const ShoutOutList = React.createClass({
-   //
    render: function(){
-      {/* (3) MAP OVER COMPONENT PROPS AND RETURN AN ARRAY OF <ShoutItem/> JSX components */}
       let arrayOfShoutOutJSX = this.props.shoutData.map(function(smod){
+         console.log(smod)
          return (
-            {/* (3a) note: pass the model to props on <ShoutItem/>  */}
             <ShoutItem shoutModl={smod} key={smod.cid}/>
          )
       })
@@ -136,7 +128,6 @@ const ShoutOutList = React.createClass({
       return (
          <div className="col-sm-8">
             <h2>¡Shout Outs!</h2>
-
             <div className="shoutout">
 
                {arrayOfShoutOutJSX}
@@ -149,7 +140,6 @@ const ShoutOutList = React.createClass({
 })
 
 const ShoutItem = React.createClass({
-   {/* (4) RETURN JSX FOR EACH MODEL -- ACCESS MODEL's ATTRIBUTES */}
    render: function(){
       return (
          <blockquote  style={{background: 'indianred', color: '#fff', padding: '4rem'}}>
